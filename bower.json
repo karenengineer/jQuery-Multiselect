@@ -1,0 +1,38 @@
+{
+  "name": "jquery-multiselect",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Mariam13/jQuery-Multiselect#readme",
+  "description": "simple jquery-multiselect",
+  "main": "./js/ms_script.js",
+  "keywords": [
+    "jquery-plugin",
+    "multiselect",
+    "github"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mariam13/jQuery-Multiselect"
+  },
+  "author": {
+    "name": "Mariam Martirosyan",
+    "email": "mariam13martirosyan@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Valentina Kocharyan"
+    },
+    {
+      "name": "Karen Gevorgyan"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/Mariam13/jQuery-Multiselect/issues"
+  },
+  "docs": "https://github.com/Mariam13/jQuery-Multiselect#readme",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ]
+}

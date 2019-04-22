@@ -5,10 +5,11 @@
 .DS_Store
 
 # bower dir
-/src/bower_components
+bower_components
 
 # npm
 node_modules
+package-lock.json
 
 # temp file storage
 .tmp

@@ -33,5 +33,8 @@
     "url": "https://github.com/Mariam13/jQuery-Multiselect/issues"
   },
   "homepage": "https://github.com/Mariam13/jQuery-Multiselect#readme",
-  "docs": "https://github.com/Mariam13/jQuery-Multiselect#readme"
+  "docs": "https://github.com/Mariam13/jQuery-Multiselect#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.1"
+  }
 }

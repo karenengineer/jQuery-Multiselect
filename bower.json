@@ -34,5 +34,8 @@
     "**/.*",
     "node_modules",
     "bower_components"
-  ]
+  ],
+  "dependencies": {
+    "jquery-3.4.0.min": "https://code.jquery.com/jquery-3.4.0.min.js"
+  }
 }

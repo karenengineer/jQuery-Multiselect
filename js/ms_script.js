@@ -31,33 +31,20 @@ $('document').ready(function () {
     });
 
     $('.js-list-item').on('click', function() {
-        let currentItemID = $(this).attr('data-id');
-        let currentItemImgUrl = $(this).find('.js-list-item-img').attr('src');
-        let currentItemName = $(this).find('.js-list-item-text').text();
-        let selectedExistedItem = $('.js-selected-list-item[data-id="' + currentItemID + '"]');
+        let currentItem = {
+            id : $(this).attr('data-id'),
+            img_url : $(this).find('.js-list-item-img').attr('src'),
+            name : $(this).find('.js-list-item-text').text()
+        };
+        let selectedExistedItem = $('.js-selected-list-item[data-id="' + currentItem.id + '"]');
 
         if($(this).hasClass('active')) {
             $(this).removeClass('active');
-            selectedExistedItem.remove();
-            let removedItemIndex = selectedItemsArray.findIndex(item => item.id === currentItemID);
-            selectedItemsArray.splice(removedItemIndex, 1);
+            deleteFromSelectedList(selectedExistedItem, currentItem.id, selectedItemsArray)
         }
         else {
             $(this).addClass('active');
-            $('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${currentItemID}">
-                                              <span class="c-label align-self-center">
-                                                  <img class="js-selected-list-item-img" src="${currentItemImgUrl}">
-                                                  <label class="js-selected-list-item-text">${currentItemName}</label>
-                                              </span>
-                                              <span class="c-remove align-self-center">
-                                                  <i class="fas fa-times"></i>
-                                              </span>
-                                            </div>`);
-            selectedItemsArray.push({
-                id : currentItemID,
-                img_url : currentItemImgUrl,
-                name : currentItemName
-            });
+            addToSelectedList(currentItem, selectedItemsArray);
         }
 
     });
@@ -65,11 +52,12 @@ $('document').ready(function () {
 
 function getItemsList(items) {
     for(let i = 0; i < items.length; i++) {
-        $('.js-items-list').append(`<div class="list-grp js-list-item" data-id="${items[i].id}">
+        let currentItem = items[i];
+        $('.js-items-list').append(`<div class="list-grp js-list-item" data-id="${currentItem.id}">
                                         <div class="pure-checkbox">
                                             <div class="pure-checkbox-content position-relative">
-                                                <img class="js-list-item-img" src="${items[i].img_url}">
-                                                <label class="js-list-item-text">${items[i].name}</label>
+                                                <img class="js-list-item-img" src="${currentItem.img_url}">
+                                                <label class="js-list-item-text">${currentItem.name}</label>
                                                 <div class="item-check">
                                                     <i class="fa fa-check"></i>
                                                 </div>
@@ -77,4 +65,22 @@ function getItemsList(items) {
                                         </div>
                                     </div>`)
     }
+}
+
+function addToSelectedList(item, itemsArray) {
+    $('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${item.id}">
+                                              <span class="c-label align-self-center">
+                                                  <img class="js-selected-list-item-img" src="${item.img_url}">
+                                                  <label class="js-selected-list-item-text">${item.name}</label>
+                                              </span>
+                                              <span class="c-remove align-self-center">
+                                                  <i class="fas fa-times"></i>
+                                              </span>
+                                            </div>`);
+    itemsArray.push(item);
+}
+
+function deleteFromSelectedList(item, itemID, itemsArray) {
+    item.remove();
+    itemsArray.splice(itemsArray.findIndex(item => item.id === itemID), 1);
 }

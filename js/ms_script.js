@@ -39,13 +39,12 @@ $('document').ready(function () {
         let selectedExistedItem = $('.js-selected-list-item[data-id="' + currentItem.id + '"]');
 
         if($(this).hasClass('active')) {
-            $(this).removeClass('active');
             deleteFromSelectedList(selectedExistedItem, currentItem.id, selectedItemsArray)
         }
         else {
-            $(this).addClass('active');
             addToSelectedList(currentItem, selectedItemsArray);
         }
+        $(this).toggleClass('active');
 
     });
 });
@@ -67,7 +66,7 @@ function getItemsList(items) {
     }
 }
 
-function addToSelectedList(item, itemsArray) {
+function addToSelectedList(item, itemsArr) {
     $('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${item.id}">
                                               <span class="c-label align-self-center">
                                                   <img class="js-selected-list-item-img" src="${item.img_url}">
@@ -77,10 +76,10 @@ function addToSelectedList(item, itemsArray) {
                                                   <i class="fas fa-times"></i>
                                               </span>
                                             </div>`);
-    itemsArray.push(item);
+    itemsArr.push(item);
 }
 
-function deleteFromSelectedList(item, itemID, itemsArray) {
+function deleteFromSelectedList(item, itemID, itemsArr) {
     item.remove();
-    itemsArray.splice(itemsArray.findIndex(item => item.id === itemID), 1);
+    itemsArr.splice(itemsArr.findIndex(item => item.id === itemID), 1);
 }

@@ -36,7 +36,7 @@
     "bower_components"
   ],
   "dependencies": {
-    "jquery-3.4.0.min": "https://code.jquery.com/jquery-3.4.0.min.js",
-    "components-font-awesome": "^5.4.2"
+    "components-font-awesome": "^5.4.2",
+    "jquery": "^3.4.0"
   }
 }

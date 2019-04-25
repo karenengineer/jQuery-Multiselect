@@ -34,5 +34,9 @@
     "**/.*",
     "node_modules",
     "bower_components"
-  ]
+  ],
+  "dependencies": {
+    "components-font-awesome": "^5.4.2",
+    "jquery": "^3.4.0"
+  }
 }

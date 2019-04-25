@@ -18,23 +18,34 @@
   border-color: #22b9ff;
 }
 
+.group-multiselect .selected-list .c-list {
+  width: calc(100% - 15px);
+}
+
 .group-multiselect .selected-list .c-list .c-token {
   color: #575962;
   background: #ebedf2;
-  padding: 3px 10px;
+  padding: 3px 25px 3px 10px;
   margin-bottom: 4px;
+  position: relative;
 }
 
 .group-multiselect .selected-list .c-dropdown {
   position: absolute;
   top: 50%;
   right: 0;
+  padding: 5px;
   transform: translate(-50%,-50%);
+  font-size: 14px;
+}
+
+.group-multiselect.active .selected-list .c-dropdown {
+  transform: translate(-50%,-50%) rotate(180deg);
 }
 
 .group-multiselect .selected-list .c-list .c-token .c-remove {
   cursor: pointer;
-  margin: 0 20px;
+  margin: 0 10px;
   right: 0;
   position: absolute;
 }
@@ -60,6 +71,11 @@
   width: 100%;
   z-index: 999;
   background: #fff;
+  display: none;
+}
+
+.group-multiselect.active .dropdown-list {
+  display: block;
 }
 
 .group-multiselect .dropdown-list .list-area {
@@ -140,7 +156,8 @@
 .group-multiselect .dropdown-list .list-grp.active .item-check {
   display: block;
   position: absolute;
-  right: 10px;
+  right: 0;
+  top: 50%;
   transform: translate(0, -50%);
   font-size: 12px;
 }
@@ -158,8 +175,11 @@
 }
 
 .group-multiselect .dropdown-list .list-grp .pure-checkbox {
-  padding: 8px 10px 8px 50px;
+  padding: 8px 10px;
   cursor: pointer;
+}
+.group-multiselect .dropdown-list .list-grp .pure-checkbox .pure-checkbox-content {
+  padding-right: 15px;
 }
 
 .group-multiselect .dropdown-list .list-grp .pure-checkbox img {
@@ -200,4 +220,8 @@
   margin-bottom: 0;
   color: #575962;
   cursor: pointer;
+}
+.multiselect-content {
+  width: 400px;
+  margin: 100px auto;
 }

@@ -38,14 +38,8 @@ $('document').ready(function () {
         };
         let selectedExistedItem = $('.js-selected-list-item[data-id="' + currentItem.id + '"]');
 
-        if($(this).hasClass('active')) {
-            deleteFromSelectedList(selectedExistedItem, currentItem.id, selectedItemsArray)
-        }
-        else {
-            addToSelectedList(currentItem, selectedItemsArray);
-        }
+        $(this).hasClass('active') ? deleteFromSelectedList(selectedExistedItem, currentItem.id, selectedItemsArray) : addToSelectedList(currentItem, selectedItemsArray);
         $(this).toggleClass('active');
-
     });
 });
 

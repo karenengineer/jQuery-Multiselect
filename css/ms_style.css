@@ -62,6 +62,8 @@
 .group-multiselect .selected-list .c-list .c-token .c-label img {
   width: 100px;
   height: auto;
+  max-height: 20px;
+  object-fit: contain;
 }
 
 .group-multiselect .dropdown-list {
@@ -185,6 +187,8 @@
 .group-multiselect .dropdown-list .list-grp .pure-checkbox img {
   width: 100px;
   height: auto;
+  max-height: 20px;
+  object-fit: contain;
 }
 
 .group-multiselect .dropdown-list .list-grp .pure-checkbox .la-check {

@@ -281,14 +281,9 @@ $('document').ready(function () {
             img_url : $(this).find('.js-list-item-img').attr('src'),
             name : $(this).find('.js-list-item-text').text()
         };
-        let selectedExistedItem = $('.js-selected-list-item[data-id="' + currentItem.id + '"]');
+        let selectedExistedItem = $(`.js-selected-list-item[data-id="${currentItem.id}"]`);
 
-        if($(this).hasClass('active')) {
-            deleteFromSelectedList(selectedExistedItem, currentItem.id, selectedItemsArray)
-        }
-        else {
-            addToSelectedList(currentItem, selectedItemsArray);
-        }
+        $(this).hasClass('active') ? deleteFromSelectedList(selectedExistedItem, currentItem.id, selectedItemsArray) : addToSelectedList(currentItem, selectedItemsArray);
         $(this).toggleClass('active');
     });
 
@@ -306,6 +301,7 @@ $('document').ready(function () {
         lastScrollTop = scrollTop;
     });
 });
+
 
 function getItemsList(items, offset, iterationCount) {
     for(let i = offset; i < iterationCount; i++) {

@@ -19,15 +19,13 @@ $('document').ready(function () {
             id : 4,
             img_url : 'img/logo3.jpg',
             name : 'Nike'
-        },
-
+        }
     ];
     let selectedItemsArray = [];
     getItemsList(itemsArray);
 
     $('.js-dropdown-toggle-btn').on('click', function () {
-        let multiSelectDropdown = $(this).closest('.js-multiselect-group');
-        multiSelectDropdown.hasClass('active') ? multiSelectDropdown.removeClass('active') : multiSelectDropdown.addClass('active');
+        $(this).closest('.js-multiselect-group').toggleClass('active');
     });
 
     $('.js-list-item').on('click', function() {
@@ -42,6 +40,7 @@ $('document').ready(function () {
         $(this).toggleClass('active');
     });
 });
+
 
 function getItemsList(items) {
     for(let i = 0; i < items.length; i++) {

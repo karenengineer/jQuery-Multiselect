@@ -36,7 +36,7 @@ $('document').ready(function () {
             img_url : $(this).find('.js-list-item-img').attr('src'),
             name : $(this).find('.js-list-item-text').text()
         };
-        let selectedExistedItem = $('.js-selected-list-item[data-id="' + currentItem.id + '"]');
+        let selectedExistedItem = $(`.js-selected-list-item[data-id="${currentItem.id}"]`);
 
         $(this).hasClass('active') ? deleteFromSelectedList(selectedExistedItem, currentItem.id, selectedItemsArray) : addToSelectedList(currentItem, selectedItemsArray);
         $(this).toggleClass('active');

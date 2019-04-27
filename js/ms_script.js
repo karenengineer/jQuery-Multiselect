@@ -291,7 +291,7 @@ $('document').ready(function () {
 
     $('.js-items-list').on('scroll', function() {
         let scrollTop = $(this).scrollTop();
-        if (scrollTop > lastScrollTop && $(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight){
+        if (scrollTop > lastScrollTop && scrollTop + $(this).innerHeight() >= this.scrollHeight){
             if(itemsOptions.offset !== itemsOptions.total) {
                 itemsOptions.offset += cycleLength;
                 cycleLength = itemsOptions.limit <= itemsOptions.total - itemsOptions.offset ? itemsOptions.limit : itemsOptions.total - itemsOptions.offset;

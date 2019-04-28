@@ -298,39 +298,16 @@ $('document').ready(function () {
     });
 
     let filteredArr = [];
-    let lastScrollTop = 0;
     if (!filteredArr) {
-        $('.js-items-list').on('scroll', function() {
-            let scrollTop = $(this).scrollTop();
-            if (scrollTop > lastScrollTop && scrollTop + $(this).innerHeight() >= this.scrollHeight){
-                if(itemsOptions.offset !== itemsOptions.total) {
-                    itemsOptions.offset += cycleLength;
-                    cycleLength = itemsOptions.limit <= itemsOptions.total - itemsOptions.offset ? itemsOptions.limit : itemsOptions.total - itemsOptions.offset;
-                    getItemsList(itemsArray, itemsOptions.offset, cycleLength + itemsOptions.offset);
-                }
-            }
-            lastScrollTop = scrollTop;
-        });
+       onScroll();
     }
 
     $('.js-search-for-item').on('keypress', function getMatchCase (e) {
-        if(e.which === 13) {
-            $('.js-items-list').empty();
-            let modified = new RegExp(e.target.value, 'gi') ;
-            itemsArray.forEach(item => {
-                if (item.name.match(modified)) {
-                    filteredArr.push(item);
-                }
-            });
-            getItemsList(filteredArr, 0, filteredArr.length);
-        }
+        keypressEnter(e, itemsArray, filteredArr)
     });
 
     $('.js-search-for-item').on('change', function (e) {
-        if (!e.target.value) {
-            $('.js-items-list').empty();
-            getItemsList(itemsArray, itemsOptions.offset, cycleLength);
-        }
+        inputChange(e, itemsArray, itemsOptions, cycleLength);
     })
 });
 
@@ -383,4 +360,40 @@ function addToSelectedList(item, itemsArr) {
 function deleteFromSelectedList(item, itemID, itemsArr) {
     item.remove();
     itemsArr.splice(itemsArr.findIndex(item => item.id === itemID), 1);
+}
+
+function onScroll() {
+    let lastScrollTop = 0;
+    $('.js-items-list').on('scroll', function() {
+        let scrollTop = $(this).scrollTop();
+        if (scrollTop > lastScrollTop && scrollTop + $(this).innerHeight() >= this.scrollHeight){
+            if(itemsOptions.offset !== itemsOptions.total) {
+                itemsOptions.offset += cycleLength;
+                cycleLength = itemsOptions.limit <= itemsOptions.total - itemsOptions.offset ? itemsOptions.limit : itemsOptions.total - itemsOptions.offset;
+                getItemsList(itemsArray, itemsOptions.offset, cycleLength + itemsOptions.offset);
+            }
+        }
+        lastScrollTop = scrollTop;
+    });
+
+}
+
+function keypressEnter(e, itemsArray, filteredArr) {
+    if(e.which === 13) {
+        $('.js-items-list').empty();
+        let modified = new RegExp(e.target.value, 'gi') ;
+        itemsArray.forEach(item => {
+            if (item.name.match(modified)) {
+                filteredArr.push(item);
+            }
+        });
+        getItemsList(filteredArr, 0, filteredArr.length);
+    }
+}
+
+function inputChange(e, itemsArray, itemsOptions, cycleLength) {
+    if (!e.target.value) {
+        $('.js-items-list').empty();
+        getItemsList(itemsArray, itemsOptions.offset, cycleLength);
+    }
 }

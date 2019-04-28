@@ -295,7 +295,7 @@ $('document').ready(function () {
     dataOptions.lazyLoad ? cycleLength = itemsOptions.limit <= itemsOptions.total ? itemsOptions.limit : itemsOptions.total : cycleLength = itemsOptions.total;
 
     getItemsList(itemsArray, itemsOptions.offset, cycleLength);
-    getSelectedItemsList(selectedItemsArray);
+    generateSelectedItemsList(selectedItemsArray);
 
     $('.js-dropdown-toggle-btn').on('click', function () {
         $(this).closest('.js-multiselect-group').toggleClass('active');
@@ -348,18 +348,19 @@ function getItemsList(items, offset, iterationCount) {
     }
 }
 
-function getSelectedItemsList(items) {
+function generateSelectedItemsList(items) {
     for(let i = 0; i < items.length; i++) {
-        $('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${items[i].id}">
+        let currentItem = items[i];
+        $('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${currentItem.id}">
                                               <span class="c-label align-self-center">
-                                                  <img class="js-selected-list-item-img" src="${items[i].img_url}">
-                                                  <label class="js-selected-list-item-text">${items[i].name}</label>
+                                                  <img class="js-selected-list-item-img" src="${currentItem.img_url}">
+                                                  <label class="js-selected-list-item-text">${currentItem.name}</label>
                                               </span>
                                               <span class="c-remove align-self-center">
                                                   <i class="fas fa-times"></i>
                                               </span>
                                             </div>`);
-        $('.js-list-item[data-id="' + items[i].id + '"]').addClass('active');
+        $(`.js-list-item[data-id="${currentItem.id}"]`).addClass('active');
     }
 }
 

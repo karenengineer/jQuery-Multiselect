@@ -267,9 +267,19 @@ $('document').ready(function () {
         total : itemsArray.length,
         offset : 0
     };
-    let cycleLength = itemsOptions.limit <= itemsOptions.total ? itemsOptions.limit : itemsOptions.total;
+
+    let dataOptions = {
+        data: itemsArray,
+        selectedItems: selectedItemsArray,
+        lazyLoad: false,
+        limit: itemsOptions.limit
+    };
+
+    let cycleLength;
+    dataOptions.lazyLoad ? cycleLength = itemsOptions.limit <= itemsOptions.total ? itemsOptions.limit : itemsOptions.total : cycleLength = itemsOptions.total;
 
     getItemsList(itemsArray, itemsOptions.offset, cycleLength);
+    generateSelectedItemsList(selectedItemsArray);
 
     $('.js-dropdown-toggle-btn').on('click', function () {
         $(this).closest('.js-multiselect-group').toggleClass('active');
@@ -300,19 +310,21 @@ $('document').ready(function () {
         });
     });
 
+    if(cycleLength !== itemsOptions.total) {
         let lastScrollTop = 0;
 
-    $('.js-items-list').on('scroll', function() {
-        let scrollTop = $(this).scrollTop();
-        if (scrollTop > lastScrollTop && scrollTop + $(this).innerHeight() >= this.scrollHeight){
-            if(itemsOptions.offset !== itemsOptions.total) {
-                itemsOptions.offset += cycleLength;
-                cycleLength = itemsOptions.limit <= itemsOptions.total - itemsOptions.offset ? itemsOptions.limit : itemsOptions.total - itemsOptions.offset;
-                getItemsList(itemsArray, itemsOptions.offset, cycleLength + itemsOptions.offset);
+        $('.js-items-list').on('scroll', function() {
+            let scrollTop = $(this).scrollTop();
+            if (scrollTop > lastScrollTop && scrollTop + $(this).innerHeight() >= this.scrollHeight){
+                if(itemsOptions.offset !== itemsOptions.total) {
+                    itemsOptions.offset += cycleLength;
+                    cycleLength = itemsOptions.limit <= itemsOptions.total - itemsOptions.offset ? itemsOptions.limit : itemsOptions.total - itemsOptions.offset;
+                    getItemsList(itemsArray, itemsOptions.offset, cycleLength + itemsOptions.offset);
+                }
             }
-        }
-        lastScrollTop = scrollTop;
-    });
+            lastScrollTop = scrollTop;
+        });
+    }
 });
 
 
@@ -330,6 +342,22 @@ function getItemsList(items, offset, iterationCount) {
                                             </div>
                                         </div>
                                     </div>`)
+    }
+}
+
+function generateSelectedItemsList(items) {
+    for(let i = 0; i < items.length; i++) {
+        let currentItem = items[i];
+        $('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${currentItem.id}">
+                                              <span class="c-label align-self-center">
+                                                  <img class="js-selected-list-item-img" src="${currentItem.img_url}">
+                                                  <label class="js-selected-list-item-text">${currentItem.name}</label>
+                                              </span>
+                                              <span class="c-remove align-self-center">
+                                                  <i class="fas fa-times"></i>
+                                              </span>
+                                            </div>`);
+        $(`.js-list-item[data-id="${currentItem.id}"]`).addClass('active');
     }
 }
 

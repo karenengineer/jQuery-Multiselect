@@ -281,13 +281,26 @@ $('document').ready(function () {
             img_url : $(this).find('.js-list-item-img').attr('src'),
             name : $(this).find('.js-list-item-text').text()
         };
-        let selectedExistedItem = $(`.js-selected-list-item[data-id="${currentItem.id}"]`);
-
-        $(this).hasClass('active') ? deleteFromSelectedList(selectedExistedItem, currentItem.id, selectedItemsArray) : addToSelectedList(currentItem, selectedItemsArray);
-        $(this).toggleClass('active');
+        classIsActive(currentItem, selectedItemsArray);
     });
 
-    let lastScrollTop = 0;
+    $('.js-select-all-items').on('click', function () {
+        itemsArray.forEach(item => {
+            if (!$('.js-list-item').hasClass('active')) {
+                $('.js-list-item').toggleClass('active');
+            }
+            classIsActive(item, selectedItemsArray);
+        } )
+    });
+
+    $('.js-unSelect-all-items').on('click', function () {
+        itemsArray.forEach(item => {
+            $('.js-list-item').removeClass('active');
+            deleteFromSelectedList(item.id, selectedItemsArray)
+        });
+    });
+
+        let lastScrollTop = 0;
 
     $('.js-items-list').on('scroll', function() {
         let scrollTop = $(this).scrollTop();
@@ -333,7 +346,15 @@ function addToSelectedList(item, itemsArr) {
     itemsArr.push(item);
 }
 
-function deleteFromSelectedList(item, itemID, itemsArr) {
+function deleteFromSelectedList(itemID, itemsArr) {
+    let item = $(`.js-selected-list-item[data-id="${item.id}"]`);
     item.remove();
     itemsArr.splice(itemsArr.findIndex(item => item.id === itemID), 1);
+}
+
+function classIsActive(item, selectedItemsArray) {
+    let selectedExistedItem = $(`.js-selected-list-item[data-id="${item.id}"]`);
+    $(this).hasClass('active') ? deleteFromSelectedList(selectedExistedItem, item.id, selectedItemsArray) : addToSelectedList(item, selectedItemsArray);
+    $(this).toggleClass('active');
+
 }

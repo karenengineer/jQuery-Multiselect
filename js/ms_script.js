@@ -287,21 +287,42 @@ $('document').ready(function () {
         $(this).toggleClass('active');
     });
 
+    let filteredArr = [];
     let lastScrollTop = 0;
-
-    $('.js-items-list').on('scroll', function() {
-        let scrollTop = $(this).scrollTop();
-        if (scrollTop > lastScrollTop && scrollTop + $(this).innerHeight() >= this.scrollHeight){
-            if(itemsOptions.offset !== itemsOptions.total) {
-                itemsOptions.offset += cycleLength;
-                cycleLength = itemsOptions.limit <= itemsOptions.total - itemsOptions.offset ? itemsOptions.limit : itemsOptions.total - itemsOptions.offset;
-                getItemsList(itemsArray, itemsOptions.offset, cycleLength + itemsOptions.offset);
+    if (!filteredArr) {
+        $('.js-items-list').on('scroll', function() {
+            let scrollTop = $(this).scrollTop();
+            if (scrollTop > lastScrollTop && scrollTop + $(this).innerHeight() >= this.scrollHeight){
+                if(itemsOptions.offset !== itemsOptions.total) {
+                    itemsOptions.offset += cycleLength;
+                    cycleLength = itemsOptions.limit <= itemsOptions.total - itemsOptions.offset ? itemsOptions.limit : itemsOptions.total - itemsOptions.offset;
+                    getItemsList(itemsArray, itemsOptions.offset, cycleLength + itemsOptions.offset);
+                }
             }
-        }
-        lastScrollTop = scrollTop;
-    });
-});
+            lastScrollTop = scrollTop;
+        });
+    }
 
+    $('.js-search-for-item').on('keypress', function getMatchCase (e) {
+        if(e.which === 13) {
+            $('.js-items-list').empty();
+            let modified = new RegExp(e.target.value, 'gi') ;
+            itemsArray.forEach(item => {
+                if (item.name.match(modified)) {
+                    filteredArr.push(item);
+                }
+            });
+            getItemsList(filteredArr, 0, filteredArr.length);
+        }
+    });
+
+    $('.js-search-for-item').on('change', function (e) {
+        if (!e.target.value) {
+            $('.js-items-list').empty();
+            getItemsList(itemsArray, itemsOptions.offset, cycleLength);
+        }
+    })
+});
 
 function getItemsList(items, offset, iterationCount) {
     for(let i = offset; i < iterationCount; i++) {

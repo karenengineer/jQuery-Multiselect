@@ -303,7 +303,9 @@ $('document').ready(function () {
     }
 
     $('.js-search-for-item').on('keypress', function getMatchCase (e) {
-        keypressEnter(e, itemsArray, filteredArr)
+        if(e.which === 13) {
+            keypressEnter(e, itemsArray, filteredArr)
+        }
     });
 
     $('.js-search-for-item').on('change', function (e) {
@@ -379,7 +381,6 @@ function onScroll() {
 }
 
 function keypressEnter(e, itemsArray, filteredArr) {
-    if(e.which === 13) {
         $('.js-items-list').empty();
         let modified = new RegExp(e.target.value, 'gi') ;
         itemsArray.forEach(item => {
@@ -388,7 +389,7 @@ function keypressEnter(e, itemsArray, filteredArr) {
             }
         });
         getItemsList(filteredArr, 0, filteredArr.length);
-    }
+
 }
 
 function inputChange(e, itemsArray, itemsOptions, cycleLength) {

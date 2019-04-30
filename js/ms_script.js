@@ -270,7 +270,7 @@ $.fn.multiSelectPLugin = (function($) {
         };
         let cycleLength = itemsOptions.limit <= itemsOptions.total ? itemsOptions.limit : itemsOptions.total;
 
-        getItemsList(itemsArray, itemsOptions.offset, cycleLength);
+    getItemsList(itemsArray, itemsOptions.offset, cycleLength);
 
         $('.js-dropdown-toggle-btn').on('click', function () {
             $(this).closest('.js-multiselect-group').toggleClass('active');
@@ -288,6 +288,7 @@ $.fn.multiSelectPLugin = (function($) {
             $(this).toggleClass('active');
         });
 
+    if(cycleLength !== itemsOptions.total) {
         let lastScrollTop = 0;
 
         $('.js-items-list').on('scroll', function() {
@@ -301,8 +302,8 @@ $.fn.multiSelectPLugin = (function($) {
             }
             lastScrollTop = scrollTop;
         });
-    });
-})(jQuery)
+    }
+});
 
 
 function getItemsList(items, offset, iterationCount) {
@@ -319,6 +320,22 @@ function getItemsList(items, offset, iterationCount) {
                                             </div>
                                         </div>
                                     </div>`)
+    }
+}
+
+function generateSelectedItemsList(items) {
+    for(let i = 0; i < items.length; i++) {
+        let currentItem = items[i];
+        $('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${currentItem.id}">
+                                              <span class="c-label align-self-center">
+                                                  <img class="js-selected-list-item-img" src="${currentItem.img_url}">
+                                                  <label class="js-selected-list-item-text">${currentItem.name}</label>
+                                              </span>
+                                              <span class="c-remove align-self-center">
+                                                  <i class="fas fa-times"></i>
+                                              </span>
+                                            </div>`);
+        $(`.js-list-item[data-id="${currentItem.id}"]`).addClass('active');
     }
 }
 

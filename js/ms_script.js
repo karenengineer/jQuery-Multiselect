@@ -270,17 +270,18 @@ $.fn.multiSelectPLugin = (function($) {
         };
         let cycleLength = itemsOptions.limit <= itemsOptions.total ? itemsOptions.limit : itemsOptions.total;
 
-    getItemsList(itemsArray, itemsOptions.offset, cycleLength);
+        getItemsList(itemsArray, itemsOptions.offset, cycleLength);
+        generateSelectedItemsList(selectedItemsArray);
 
         $('.js-dropdown-toggle-btn').on('click', function () {
             $(this).closest('.js-multiselect-group').toggleClass('active');
         });
 
-        $('.js-list-item').on('click', function() {
+        $('.js-list-item').on('click', function () {
             let currentItem = {
-                id : $(this).attr('data-id'),
-                img_url : $(this).find('.js-list-item-img').attr('src'),
-                name : $(this).find('.js-list-item-text').text()
+                id: $(this).attr('data-id'),
+                img_url: $(this).find('.js-list-item-img').attr('src'),
+                name: $(this).find('.js-list-item-text').text()
             };
             let selectedExistedItem = $(`.js-selected-list-item[data-id="${currentItem.id}"]`);
 
@@ -288,71 +289,71 @@ $.fn.multiSelectPLugin = (function($) {
             $(this).toggleClass('active');
         });
 
-    if(cycleLength !== itemsOptions.total) {
-        let lastScrollTop = 0;
+        if (cycleLength !== itemsOptions.total) {
+            let lastScrollTop = 0;
 
-        $('.js-items-list').on('scroll', function() {
-            let scrollTop = $(this).scrollTop();
-            if (scrollTop > lastScrollTop && scrollTop + $(this).innerHeight() >= this.scrollHeight){
-                if(itemsOptions.offset !== itemsOptions.total) {
-                    itemsOptions.offset += cycleLength;
-                    cycleLength = itemsOptions.limit <= itemsOptions.total - itemsOptions.offset ? itemsOptions.limit : itemsOptions.total - itemsOptions.offset;
-                    getItemsList(itemsArray, itemsOptions.offset, cycleLength + itemsOptions.offset);
+            $('.js-items-list').on('scroll', function () {
+                let scrollTop = $(this).scrollTop();
+                if (scrollTop > lastScrollTop && scrollTop + $(this).innerHeight() >= this.scrollHeight) {
+                    if (itemsOptions.offset !== itemsOptions.total) {
+                        itemsOptions.offset += cycleLength;
+                        cycleLength = itemsOptions.limit <= itemsOptions.total - itemsOptions.offset ? itemsOptions.limit : itemsOptions.total - itemsOptions.offset;
+                        getItemsList(itemsArray, itemsOptions.offset, cycleLength + itemsOptions.offset);
+                    }
                 }
-            }
-            lastScrollTop = scrollTop;
-        });
-    }
+                lastScrollTop = scrollTop;
+            });
+        }
+    };
 });
 
-
-function getItemsList(items, offset, iterationCount) {
+getItemsList = function (items, offset, iterationCount) {
     for(let i = offset; i < iterationCount; i++) {
         let currentItem = items[i];
         $('.js-items-list').append(`<div class="list-grp js-list-item" data-id="${currentItem.id}">
-                                        <div class="pure-checkbox">
-                                            <div class="pure-checkbox-content position-relative">
-                                                <img class="js-list-item-img" src="${currentItem.img_url}">
-                                                <label class="js-list-item-text">${currentItem.name}</label>
-                                                <div class="item-check">
-                                                    <i class="fa fa-check"></i>
-                                                </div>
+                                    <div class="pure-checkbox">
+                                        <div class="pure-checkbox-content position-relative">
+                                            <img class="js-list-item-img" src="${currentItem.img_url}">
+                                            <label class="js-list-item-text">${currentItem.name}</label>
+                                            <div class="item-check">
+                                                <i class="fa fa-check"></i>
                                             </div>
                                         </div>
-                                    </div>`)
+                                    </div>
+                                </div>`)
     }
-}
+};
 
-function generateSelectedItemsList(items) {
+generateSelectedItemsList = function (items) {
     for(let i = 0; i < items.length; i++) {
         let currentItem = items[i];
         $('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${currentItem.id}">
-                                              <span class="c-label align-self-center">
-                                                  <img class="js-selected-list-item-img" src="${currentItem.img_url}">
-                                                  <label class="js-selected-list-item-text">${currentItem.name}</label>
-                                              </span>
-                                              <span class="c-remove align-self-center">
-                                                  <i class="fas fa-times"></i>
-                                              </span>
-                                            </div>`);
+                                          <span class="c-label align-self-center">
+                                              <img class="js-selected-list-item-img" src="${currentItem.img_url}">
+                                              <label class="js-selected-list-item-text">${currentItem.name}</label>
+                                          </span>
+                                          <span class="c-remove align-self-center">
+                                              <i class="fas fa-times"></i>
+                                          </span>
+                                        </div>`);
         $(`.js-list-item[data-id="${currentItem.id}"]`).addClass('active');
     }
-}
+};
 
-function addToSelectedList(item, itemsArr) {
+addToSelectedList = function (item, itemsArr) {
     $('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${item.id}">
-                                              <span class="c-label align-self-center">
-                                                  <img class="js-selected-list-item-img" src="${item.img_url}">
-                                                  <label class="js-selected-list-item-text">${item.name}</label>
-                                              </span>
-                                              <span class="c-remove align-self-center">
-                                                  <i class="fas fa-times"></i>
-                                              </span>
-                                            </div>`);
+                                          <span class="c-label align-self-center">
+                                              <img class="js-selected-list-item-img" src="${item.img_url}">
+                                              <label class="js-selected-list-item-text">${item.name}</label>
+                                          </span>
+                                          <span class="c-remove align-self-center">
+                                              <i class="fas fa-times"></i>
+                                          </span>
+                                        </div>`);
     itemsArr.push(item);
-}
+};
 
-function deleteFromSelectedList(item, itemID, itemsArr) {
+deleteFromSelectedList = function(item, itemID, itemsArr) {
     item.remove();
     itemsArr.splice(itemsArr.findIndex(item => item.id === itemID), 1);
-}
+};

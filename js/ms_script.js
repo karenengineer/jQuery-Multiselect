@@ -322,28 +322,13 @@ $('document').ready(function () {
 
         $('.js-list-item').lister();
 
-        $.fn.keypressForSearch = function() {
-            this.keypress(function getMatchCase (e) {
-                if(e.which === 13) {
-                    keypressEnter(e.target.value, itemsArray, filteredArr)
-                }
-            })
-        };
-
-        $('.js-search-for-item').keypressForSearch();
-
         let filteredArr = [];
         if (!filteredArr) {
            onScroll();
         }
 
-        $.fn.clearSearchWord = function(){
-            this.change( function (e) {
-                inputChange(e.target.value, itemsArray, itemsOptions, cycleLength);
-            })
-        };
 
-        $('.js-search-for-item').clearSearchWord();
+    }
 });
 
 getItemsList = function (items, offset, iterationCount) {

@@ -298,38 +298,52 @@ $('document').ready(function () {
         getItemsList(itemsArray, itemsOptions.offset, cycleLength);
         generateSelectedItemsList(selectedItemsArray);
 
-        $('.js-dropdown-toggle-btn').on('click', function () {
-            $(this).closest('.js-multiselect-group').toggleClass('active');
-        });
-
-        $('.js-list-item').on('click', function () {
-            let currentItem = {
-                id: $(this).attr('data-id'),
-                img_url: $(this).find('.js-list-item-img').attr('src'),
-                name: $(this).find('.js-list-item-text').text()
-            };
-            let selectedExistedItem = $(`.js-selected-list-item[data-id="${currentItem.id}"]`);
-
-            $(this).hasClass('active') ? deleteFromSelectedList(selectedExistedItem, currentItem.id, selectedItemsArray) : addToSelectedList(currentItem, selectedItemsArray);
-            $(this).toggleClass('active');
-        });
-
-        if (cycleLength !== itemsOptions.total) {
-            let lastScrollTop = 0;
-
-            $('.js-items-list').on('scroll', function () {
-                let scrollTop = $(this).scrollTop();
-                if (scrollTop > lastScrollTop && scrollTop + $(this).innerHeight() >= this.scrollHeight) {
-                    if (itemsOptions.offset !== itemsOptions.total) {
-                        itemsOptions.offset += cycleLength;
-                        cycleLength = itemsOptions.limit <= itemsOptions.total - itemsOptions.offset ? itemsOptions.limit : itemsOptions.total - itemsOptions.offset;
-                        getItemsList(itemsArray, itemsOptions.offset, cycleLength + itemsOptions.offset);
-                    }
-                }
-                lastScrollTop = scrollTop;
+        $.fn.toggler = function() {
+            this.click(function () {
+                $(this).closest('.js-multiselect-group').toggleClass('active');
             });
+        };
+
+        $('.js-dropdown-toggle-btn').toggler();
+
+        $.fn.lister = function() {
+          this.click(function () {
+              let currentItem = {
+                  id: $(this).attr('data-id'),
+                  img_url: $(this).find('.js-list-item-img').attr('src'),
+                  name: $(this).find('.js-list-item-text').text()
+              };
+              let selectedExistedItem = $(`.js-selected-list-item[data-id="${currentItem.id}"]`);
+
+              $(this).hasClass('active') ? deleteFromSelectedList(selectedExistedItem, currentItem.id, selectedItemsArray) : addToSelectedList(currentItem, selectedItemsArray);
+              $(this).toggleClass('active');
+          })
+        };
+
+        $('.js-list-item').lister();
+
+        $.fn.keypressForSearch = function() {
+            this.keypress(function getMatchCase (e) {
+                if(e.which === 13) {
+                    keypressEnter(e.target.value, itemsArray, filteredArr)
+                }
+            })
+        };
+
+        $('.js-search-for-item').keypressForSearch();
+
+        let filteredArr = [];
+        if (!filteredArr) {
+           onScroll();
         }
-    };
+
+        $.fn.clearSearchWord = function(){
+            this.change( function (e) {
+                inputChange(e.target.value, itemsArray, itemsOptions, cycleLength);
+            })
+        };
+
+        $('.js-search-for-item').clearSearchWord();
 });
 
 getItemsList = function (items, offset, iterationCount) {

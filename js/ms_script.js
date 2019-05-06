@@ -1,5 +1,5 @@
-$.fn.multiSelectPLugin = (function($) {
-    $('document').ready(function () {
+($.fn.multiSelectPLugin = function ($) {
+    $(document).ready( function () {
         let itemsArray = [
             {
                 id : 1,
@@ -304,8 +304,8 @@ $.fn.multiSelectPLugin = (function($) {
                 lastScrollTop = scrollTop;
             });
         }
-    };
-});
+ })
+})(jQuery);
 
 getItemsList = function (items, offset, iterationCount) {
     for(let i = offset; i < iterationCount; i++) {

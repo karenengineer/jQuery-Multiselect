@@ -383,7 +383,7 @@ function onScroll() {
 
 function keypressEnter(eventValue, itemsArray, filteredArr) {
         $('.js-items-list').empty();
-        let modified = new RegExp(eventValue, 'gi') ;
+        const modified = new RegExp(eventValue, 'gi') ;
         itemsArray.forEach(item => {
             if (item.name.match(modified)) {
                 filteredArr.push(item);

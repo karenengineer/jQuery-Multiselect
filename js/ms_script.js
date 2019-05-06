@@ -1,5 +1,5 @@
-$('document').ready(function () {
-    $.fn.multiSelectInit = function() {
+($.fn.multiSelectPLugin = function () {
+    $(document).ready( function () {
         let itemsArray = [
             {
                 id: 1,
@@ -298,29 +298,21 @@ $('document').ready(function () {
         getItemsList(itemsArray, itemsOptions.offset, cycleLength);
         generateSelectedItemsList(selectedItemsArray);
 
-        $.fn.toggler = function() {
-            this.click(function () {
-                $(this).closest('.js-multiselect-group').toggleClass('active');
-            });
-        };
+        $(this).find('.js-dropdown-toggle-btn').click(function () {
+            $(this).closest('.js-multiselect-group').toggleClass('active');
+        });
 
-        $('.js-dropdown-toggle-btn').toggler();
+        $(this).find('.js-list-item').click(function () {
+            let currentItem = {
+                id: $(this).attr('data-id'),
+                img_url: $(this).find('.js-list-item-img').attr('src'),
+                name: $(this).find('.js-list-item-text').text()
+            };
+            let selectedExistedItem = $(`.js-selected-list-item[data-id="${currentItem.id}"]`);
 
-        $.fn.lister = function() {
-          this.click(function () {
-              let currentItem = {
-                  id: $(this).attr('data-id'),
-                  img_url: $(this).find('.js-list-item-img').attr('src'),
-                  name: $(this).find('.js-list-item-text').text()
-              };
-              let selectedExistedItem = $(`.js-selected-list-item[data-id="${currentItem.id}"]`);
-
-              $(this).hasClass('active') ? deleteFromSelectedList(selectedExistedItem, currentItem.id, selectedItemsArray) : addToSelectedList(currentItem, selectedItemsArray);
-              $(this).toggleClass('active');
-          })
-        };
-
-        $('.js-list-item').lister();
+            $(this).hasClass('active') ? deleteFromSelectedList(selectedExistedItem, currentItem.id, selectedItemsArray) : addToSelectedList(currentItem, selectedItemsArray);
+            $(this).toggleClass('active');
+        });
 
         let filteredArr = [];
         if (!filteredArr) {
@@ -340,10 +332,11 @@ $('document').ready(function () {
                 }
                 lastScrollTop = scrollTop;
             });
-
         }
-    }
-});
+
+
+    })
+})();
 
 getItemsList = function (items, offset, iterationCount) {
     for(let i = offset; i < iterationCount; i++) {

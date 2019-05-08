@@ -291,7 +291,7 @@ $('document').ready(function () {
             lazyLoad: false,
             limit: itemsOptions.limit
         };
-
+        let that  = $(this);
         let cycleLength;
         dataOptions.lazyLoad ? cycleLength = itemsOptions.limit <= itemsOptions.total ? itemsOptions.limit : itemsOptions.total : cycleLength = itemsOptions.total;
 
@@ -321,7 +321,7 @@ $('document').ready(function () {
 
         function onScroll() {
             let lastScrollTop = 0;
-            $('.js-items-list').on('scroll', function() {
+            that.find('.js-items-list').on('scroll', function() {
                 let scrollTop = $(this).scrollTop();
                 if (scrollTop > lastScrollTop && scrollTop + $(this).innerHeight() >= this.scrollHeight){
                     if(itemsOptions.offset !== itemsOptions.total) {
@@ -337,7 +337,7 @@ $('document').ready(function () {
         function getItemsList(items, offset, iterationCount) {
             for(let i = offset; i < iterationCount; i++) {
                 let currentItem = items[i];
-                $('.js-items-list').append(`<div class="list-grp js-list-item" data-id="${currentItem.id}">
+                that.find('.js-items-list').append(`<div class="list-grp js-list-item" data-id="${currentItem.id}">
                                     <div class="pure-checkbox">
                                         <div class="pure-checkbox-content position-relative">
                                             <img class="js-list-item-img" src="${currentItem.img_url}">
@@ -354,7 +354,7 @@ $('document').ready(function () {
         function generateSelectedItemsList(items) {
             for(let i = 0; i < items.length; i++) {
                 let currentItem = items[i];
-                $('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${currentItem.id}">
+                that.find('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${currentItem.id}">
                                           <span class="c-label align-self-center">
                                               <img class="js-selected-list-item-img" src="${currentItem.img_url}">
                                               <label class="js-selected-list-item-text">${currentItem.name}</label>
@@ -363,12 +363,12 @@ $('document').ready(function () {
                                               <i class="fas fa-times"></i>
                                           </span>
                                         </div>`);
-                $(`.js-list-item[data-id="${currentItem.id}"]`).addClass('active');
+                that.find(`.js-list-item[data-id="${currentItem.id}"]`).addClass('active');
             }
         }
 
         function addToSelectedList(item, itemsArr) {
-            $('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${item.id}">
+            that.find('.js-selected-list').append(`<div class="c-token d-flex justify-content-between js-selected-list-item" data-id="${item.id}">
                                           <span class="c-label align-self-center">
                                               <img class="js-selected-list-item-img" src="${item.img_url}">
                                               <label class="js-selected-list-item-text">${item.name}</label>
@@ -385,5 +385,5 @@ $('document').ready(function () {
             itemsArr.splice(itemsArr.findIndex(item => item.id === itemID), 1);
         }
     };
-    $.fn.multiSelectInit();
+    $('.multiselect-content').multiSelectInit();
 });
